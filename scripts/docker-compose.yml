@@ -20,7 +20,7 @@ services:
     image: demo:0.1
     environment:
       - INFLUX_HOST=http://inf:8086
-      - INFLUX_TOKEN=okMDErwAigiAxRFbkmSMrgVxvhOk2SOmnfVP-nATd2jEiexDPXm6xs30p0xdzkK4D6kW7Bc_W8cVNLXDzLILLg==
+      - INFLUX_TOKEN=l7ZBNSgx7h4nJvPB1WKLn8pMX3_NdABMNTfJ1QcP_DuQ545qApj9ao7yXAgCeLmChfv4urUMtepBX5M8FQ5zDw==
       - INFLUX_ORG=api_v1
       - DOCKER_SOCK_PATH=/var/run/docker.sock
       - LISTEN_ADDR=:8080
@@ -30,7 +30,7 @@ services:
       dockerfile: Dockerfile
       args:
         - INFLUX_HOST=http://inf:8086
-        - INFLUX_TOKEN=okMDErwAigiAxRFbkmSMrgVxvhOk2SOmnfVP-nATd2jEiexDPXm6xs30p0xdzkK4D6kW7Bc_W8cVNLXDzLILLg==
+        - INFLUX_TOKEN=l7ZBNSgx7h4nJvPB1WKLn8pMX3_NdABMNTfJ1QcP_DuQ545qApj9ao7yXAgCeLmChfv4urUMtepBX5M8FQ5zDw==
         - INFLUX_ORG=api_v1
         - TEST_USER_TOKEN=45ec72df20bf09a726ac65ffdd5ef652fb8b5ba06f-test
         - DOCKER_SOCK_PATH=/var/run/docker.sock

@@ -54,7 +54,7 @@ Default credentials
 ```
 username: admin
 password: 12345678
-influxdb2-token: okMDErwAigiAxRFbkmSMrgVxvhOk2SOmnfVP-nATd2jEiexDPXm6xs30p0xdzkK4D6kW7Bc_W8cVNLXDzLILLg==
+influxdb2-token: l7ZBNSgx7h4nJvPB1WKLn8pMX3_NdABMNTfJ1QcP_DuQ545qApj9ao7yXAgCeLmChfv4urUMtepBX5M8FQ5zDw==
 influxdb2-org: api_v1
 proxy-token: 45ec72df20bf09a726ac65ffdd5ef652fb8b5ba06f-test
 ```
