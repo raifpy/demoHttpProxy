@@ -11,6 +11,7 @@ import (
 
 type ServerConfig struct {
 	Logger           logrus.FieldLogger
+	Client           *http.Client
 	ListenAddr       string
 	BlacklistedHosts []string
 	QueueLimit       int

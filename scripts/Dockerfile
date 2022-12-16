@@ -1,0 +1,14 @@
+FROM alpine:3
+
+ARG INFLUX_HOST
+ARG INFLUX_TOKEN
+ARG INFLUX_ORG
+ARG TEST_USER_TOKEN
+ARG DOCKER_SOCK_PATH
+ARG LISTEN_ADDR
+
+RUN mkdir -p /opt/demo/
+COPY demo /opt/demo/demo
+RUN /opt/demo/demo -i $INFLUX_HOST -t $INFLUX_TOKEN -o $INFLUX_ORG set-user $TEST_USER_TOKEN
+EXPOSE 8080
+CMD /opt/demo/demo -i $INFLUX_HOST -t $INFLUX_TOKEN -o $INFLUX_ORG --verbose -d $DOCKER_SOCK_PATH -b localhost -l $LISTEN_ADDR -q

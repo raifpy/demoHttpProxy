@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"os"
 	"time"
 
@@ -57,6 +58,7 @@ func main() {
 		Logger:           logger,
 
 		WaitQueue: demoFlags.EnableQueue,
+		Client:    pkg.DefaultHttpClient,
 	}
 
 	if cfg.WaitQueue && cfg.QueueLimit <= 0 || cfg.WaitQueueTimeout <= 0 {
@@ -94,6 +96,8 @@ func main() {
 			}
 		}
 
+		cfg.Client = http.DefaultClient
+
 	}
 	logger.Debugf("Connecting to the InfluxDB2 server")
 	database := db.InfluxDB{
@@ -118,8 +122,14 @@ func main() {
 			if len(extra) != 1 {
 				user.Token = extra[1]
 			}
-			if err := database.SetUser(context.Background(), user); err != nil {
-				fmt.Printf(`{"error":"%v"}`, err)
+
+			_user, err := database.GetToken(context.Background(), user.Token)
+			if err != nil {
+				if err = database.SetUser(context.Background(), user); err != nil {
+					fmt.Printf(`{"error":"%v"}`, err)
+				} else {
+					user = _user
+				}
 
 			} else {
 				r, _ := json.Marshal(user)

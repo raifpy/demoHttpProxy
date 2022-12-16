@@ -7,7 +7,7 @@ func New(c ServerConfig, db Database) (s *Server) {
 		Logger:   c.Logger,
 		Database: db,
 		Router:   mux.NewRouter(),
-		Client:   DefaultHttpClient,
+		Client:   c.Client,
 		//UserService: NewUserService(s),
 		Config: c,
 	}

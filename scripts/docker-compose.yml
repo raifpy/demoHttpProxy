@@ -1,0 +1,62 @@
+version: "3"
+
+services:
+  inf:
+    container_name: inf
+    image: influxdb:2.5
+    ports:
+      - "8086:8086"
+    networks:
+      - i
+    volumes:
+      - ./influxVolume:/var/lib/influxdb2 # admin:12345678
+    healthcheck:
+        test: influx ping # Not working
+        interval: 30s
+        timeout: 1s
+        retries: 10
+  demo:
+    container_name: demo
+    image: demo:0.1
+    environment:
+      - INFLUX_HOST=http://inf:8086
+      - INFLUX_TOKEN=okMDErwAigiAxRFbkmSMrgVxvhOk2SOmnfVP-nATd2jEiexDPXm6xs30p0xdzkK4D6kW7Bc_W8cVNLXDzLILLg==
+      - INFLUX_ORG=api_v1
+      - DOCKER_SOCK_PATH=/var/run/docker.sock
+      - LISTEN_ADDR=:8080
+    build:
+      network: i.network
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - INFLUX_HOST=http://inf:8086
+        - INFLUX_TOKEN=okMDErwAigiAxRFbkmSMrgVxvhOk2SOmnfVP-nATd2jEiexDPXm6xs30p0xdzkK4D6kW7Bc_W8cVNLXDzLILLg==
+        - INFLUX_ORG=api_v1
+        - TEST_USER_TOKEN=45ec72df20bf09a726ac65ffdd5ef652fb8b5ba06f-test
+        - DOCKER_SOCK_PATH=/var/run/docker.sock
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "8080:8080"
+    networks:
+      - i
+
+    depends_on:
+      - inf
+    links:
+      - inf
+
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 3
+
+    
+
+
+networks:
+  i:
+    name: i.network
+    driver: bridge
