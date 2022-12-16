@@ -66,6 +66,10 @@ func (d DbSim) UpdateRequest(ctx context.Context, r UserRequest) error {
 
 }
 
+func (d DbSim) SetUser(ctx context.Context, u User) error {
+	return errors.New("setuser dbsim not implemented")
+}
+
 var TestDb = DbSim{
 	Users: []User{
 		{

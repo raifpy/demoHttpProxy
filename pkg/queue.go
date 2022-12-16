@@ -12,7 +12,7 @@ func (s *Server) queueMiddleware(next http.Handler) http.Handler {
 		id := r.Context().Value(_uuid).(uuid.UUID)
 		user := r.Context().Value(_user).(User)
 
-		if s.Config.QueueLimit > 0 {
+		if s.Config.WaitQueue {
 			tcfg, cancel := context.WithTimeout(r.Context(), s.Config.WaitQueueTimeout)
 			defer cancel()
 			s.Logger.Debugf("Waiting queue for user %s req %s", user.Token, id.String())

@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"net/http"
+	"strings"
 )
 
 // Custom DNS resolver (DefaultHTTPClient) kullanıldığı zaman ihtiyacımız yok.
@@ -27,6 +28,10 @@ func (s *Server) filterHandler(next http.Handler) http.Handler {
 }
 
 func (s *Server) checkHostIsBlacklisted(host string) bool {
+	if pindex := strings.Index(host, ":"); pindex != -1 {
+		// Host contains port
+		host = host[:pindex]
+	}
 	for i := 0; i < len(s.Config.BlacklistedHosts); i++ {
 		if host == s.Config.BlacklistedHosts[i] {
 			return true

@@ -17,13 +17,13 @@ func (s *Server) proxyError(w http.ResponseWriter, r *http.Request, status strin
 		id := r.Context().Value(_uuid).(uuid.UUID)
 
 		go s.Database.UpdateRequest(context.Background(), UserRequest{
-			UpdateTime: time.Now().Unix(),
+			UpdateTime: time.Now(),
 			RequestId:  id.String(),
 			Status:     "error",
 			Error:      fmt.Sprintf("%s:%v", status, desc),
 		})
 	}
-
+	
 	http.Error(w, status, statusCode)
 }
 
@@ -32,11 +32,11 @@ func (s *Server) proxyAuthError(w http.ResponseWriter, r *http.Request, reason s
 	w.Header().Set("Proxy-Authenticate:", "Basic")
 	s.proxyError(w, nil, "proxy auth required", http.StatusProxyAuthRequired)
 
-	if s.Config.AbortOnProxyAuthRequired {
-		if h, _ := w.(http.Hijacker); h != nil {
-			if conn, _, _ := h.Hijack(); conn != nil {
-				conn.Close()
-			}
-		}
-	}
+	// if s.Config.AbortOnProxyAuthRequired {
+	// 	if h, _ := w.(http.Hijacker); h != nil {
+	// 		if conn, _, _ := h.Hijack(); conn != nil {
+	// 			conn.Close()
+	// 		}
+	// 	}
+	// } // Useless
 }

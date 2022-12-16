@@ -26,12 +26,10 @@ var TestServer = &Server{
 
 		ListenAddr: "127.0.0.1:8080",
 
-		BlacklistedHosts:         []string{"scrape.do", "localhost"}, // eeeh: Docker üzerinde koşacağı için büyük oranda sınırlanacak
-		WaitQueueTimeout:         time.Second * 5,
-		QueueLimit:               2,
-		AbortOnProxyAuthRequired: false,
-		Debug:                    true,
-		WaitQueue:                true,
+		BlacklistedHosts: []string{"scrape.do", "localhost"}, // eeeh: Docker üzerinde koşacağı için büyük oranda sınırlanacak
+		WaitQueueTimeout: time.Second * 5,
+		QueueLimit:       2,
+		WaitQueue:        true,
 	},
 	Client: DefaultHttpClient, // Cloudflare dns kullanıyor
 }

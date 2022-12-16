@@ -10,15 +10,12 @@ import (
 )
 
 type ServerConfig struct {
+	Logger           logrus.FieldLogger
 	ListenAddr       string
 	BlacklistedHosts []string
-
 	QueueLimit       int
 	WaitQueueTimeout time.Duration
-
-	AbortOnProxyAuthRequired bool
-	Debug                    bool
-	WaitQueue                bool
+	WaitQueue        bool
 }
 
 type Server struct {

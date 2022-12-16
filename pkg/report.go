@@ -1,8 +1,8 @@
 package pkg
 
 import (
+	"context"
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/google/uuid"
@@ -15,15 +15,13 @@ func (s *Server) reportMiddleware(next http.Handler) http.Handler {
 
 		s.Logger.Printf("response received successfully %s", id.String())
 
-		bd, _ := strconv.Atoi(response.Header.Get("Content-Length"))
-
-		if err := s.Database.UpdateRequest(r.Context(), UserRequest{
-			UpdateTime:          time.Now().Unix(),
+		if err := s.Database.UpdateRequest(context.Background(), UserRequest{
+			UpdateTime:          time.Now(),
 			Status:              "ok",
 			Error:               "",
 			ResponseContentType: response.Header.Get("Content-Type"),
 			ResponseStatus:      response.Status,
-			ResponseSize:        bd,
+			ResponseSize:        response.ContentLength,
 			RequestId:           id.String(),
 		}); err != nil {
 			s.Logger.Errorf("failed to update request %s: %s", id.String(), err.Error())
